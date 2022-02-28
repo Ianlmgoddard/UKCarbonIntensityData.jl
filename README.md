@@ -4,7 +4,7 @@ A Julia wrapper for the UK Electricity System operator (UK-ESO) [carbon intensit
 
 ## Examples
 
-The Carbon intensity API lets us grab data at different spatial scales, either nationwide or regional, and over different time period. The following examples show how we can use this package to retrieve this data. Note that the data has half hourly temporal resolution.
+The Carbon intensity API lets us grab data at different spatial scales, either nationwide or regional, and over different time periods. The following examples show how we can use this package to retrieve data via the API. Note that the data has half hourly temporal resolution.
 
 ```Julia
 using TimeZones
@@ -25,7 +25,7 @@ regional_intensity = regional_data.intensity;
 regional_mix = regional_data.generation;
 ```
 
-To quickly grab the forecast for todays forecast and realised carbon intensities, we can use `get_todays_forecast`. By default this will return national level data, however we can pass the `regional_kwarg` to return regional data.
+To grab the forecast for todays forecast and realised carbon intensities, we can use `get_todays_forecast`. By default this will return national level data, however we can pass the `regional` kwarg` to return data with regional granularity.
 ```Julia
 national_data = get_todays_forecast()
 
