@@ -1,4 +1,10 @@
-function get_carbon_intensity(start_date, end_date)
+"""
+    get_carbon_intensity(start_date::ZonedDateTime, end_date::ZonedDateTime)
+
+Returns a DataFrame of the nationwide forecast and actual carbon intensity between the
+given `start_date` and `end_date`.
+"""
+function get_carbon_intensity(start_date::ZonedDateTime, end_date::ZonedDateTime)
     # get 10 days period as API only allows requests of less than 14 days
     date_ranges = collect(Iterators.partition(start_date:Day(1):end_date, floor(Int, 10)))
 
@@ -12,21 +18,38 @@ function get_carbon_intensity(start_date, end_date)
             parsed_data = _parse_data(data)
             return _unpack_df(parsed_data, :intensity)
         catch e
-            # fix this
-            @warn(e)
+            @warn("error $e for date range $range")
         end
     end
 
     return reduce(vcat, parsed_dfs)
 end
+"""
+    get_todays_forecast(;regional::Bool=false, region::AbstractString="")
+
+Returns a DataFrame of the forecast and actual carbon intensity between for the 48 hours
+of the day the query is called. By default return national level data, pass `regional=true`
+to return data with regional spatial resolution. To retreive data for a single region, pass
+the `region = <desired region>` where <desired region> must be included in the the
+`AVAILABLE_REGIONS`.
+"""
+function get_todays_forecast(;regional::Bool=false, region::AbstractString="")
+
+    # TODO: When passing `region` != "", query the API for only that region,
+    # as opposed to all region. The reason this isn't don't already is because the
+    # retruned data has a different format when querying for a single region.
 
 
-function get_todays_forecast(;regional::Bool=false)
+    if !isempty(region) && !in(region, keys(AVAILABLE_REGIONS))
+        error("$region not in available regions, choose one of
+        $(collect(keys(AVAILABLE_REGIONS)))")
+    end
+
     sd = Date(now())
     request_string = if regional
-        "https://api.carbonintensity.org.uk/regional/intensity/$(sd)/fw24h"
+        "https://api.carbonintensity.org.uk/regional/intensity/$(sd)/fw48h"
     else
-        "https://api.carbonintensity.org.uk/intensity/$(sd)/fw24h"
+        "https://api.carbonintensity.org.uk/intensity/$(sd)/fw48h"
     end
 
     request = HTTP.request(
@@ -35,13 +58,25 @@ function get_todays_forecast(;regional::Bool=false)
     )
     data = JSON.parse(String(request.body))["data"]
     parsed_data = _parse_data(data)
-    if regional
+    if !regional
+        return _unpack_df(parsed_data, :intensity)
+    elseif isempty(region)
         return _unpack_df(_unpack_df(parsed_data, :regions), :intensity)
     else
-        return _unpack_df(parsed_data, :intensity)
+        df = _unpack_df(_unpack_df(parsed_data, :regions), :intensity)
+        return @subset(df, :shortname.==region)
     end
 end
 
+"""
+    get_carbon_intensity(start_date::ZonedDateTime, end_date::ZonedDateTime)
+
+Returns a NamedTuple with two fields named `intensity` and `generation`.
+Both tables contain data spanning the period defined by the `start_date` and `end_date`.
+the `intensity` field contains a dataframe of the forecast data of the regional cabron
+intensity, and the `generation` field contains a dataframe of the
+regional generation as a percent of the total generation.
+"""
 function get_regional_data(start_date, end_date)
     # get 10 days period as API only allows requests of less than 14 days
     date_ranges = collect(Iterators.partition(start_date:Day(1):end_date, floor(Int, 10)))
@@ -64,8 +99,7 @@ function get_regional_data(start_date, end_date)
             push!(intensity_dfs, intensity_df)
             push!(generation_dfs, generation_df)
         catch e
-            # fix this
-            @warn(e)
+            @warn("error $e for date range $range")
         end
     end
     return (;
@@ -81,6 +115,12 @@ function _convert_mix(a)
     return Dict(getindex.(a, "fuel") .=> getindex.(a, "perc"))
 end
 
+"""
+helper function to parse the JSON data requested.
+
+# TODO: Don't convert each element of `data` to DataFrame as this adds a lot of
+unnecessary allocations
+"""
 _parse_data(data::AbstractArray) = _parse_data(reduce(vcat, DataFrame.(data)))
 
 function _parse_data(parsed_df::DataFrame)
@@ -89,7 +129,9 @@ function _parse_data(parsed_df::DataFrame)
     return parsed_df
 end
 
-
+"""
+helper function to unpack nested dictionaries.
+"""
 function _unpack_df(df, unpack_col)
     # copy so we don't mutate the input
     parsed_df = deepcopy(df)
