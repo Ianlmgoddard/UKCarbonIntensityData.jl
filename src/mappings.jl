@@ -1,6 +1,6 @@
 """
 The carbon index bounds are static per year and defined in the
-[Methodology](https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0) paper published byNG ESO
+[Methodology](https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0) paper published by NG-ESO
 """
 const CARBON_INDEX_BOUNDS = OrderedDict(
     "Very Low" => (0, 44),

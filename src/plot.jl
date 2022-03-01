@@ -49,9 +49,9 @@ region, then plot data for this region only. Valid regions are contained in
             :seriestype --> :line
             :label --> label
             :seriescolor --> colors[counter]
-            fillrange --> (boundaries)
-            fillalpha --> 0.2
-            seriesalpha --> 0.8
+            :fillrange --> (boundaries)
+            :fillalpha --> 0.2
+            :seriesalpha --> 0.8
             (data.to, fill(last(boundaries), length(data.to)))
         end
     end
@@ -90,9 +90,9 @@ and `end_date`.
             :seriestype --> :line
             :label --> label
             :seriescolor --> colors[counter]
-            fillrange --> (boundaries)
-            fillalpha --> 0.2
-            seriesalpha --> 0.8
+            :fillrange --> (boundaries)
+            :fillalpha --> 0.2
+            :seriesalpha --> 0.8
             (data.to, fill(last(boundaries), length(data.to)))
         end
     end

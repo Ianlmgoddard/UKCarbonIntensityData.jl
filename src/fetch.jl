@@ -36,7 +36,7 @@ the `region = <desired region>` where <desired region> must be included in the t
 function get_todays_forecast(;regional::Bool=false, region::AbstractString="")
 
     # TODO: When passing `region` != "", query the API for only that region,
-    # as opposed to all region. The reason this isn't don't already is because the
+    # as opposed to all regions. The reason this isn't done already is because the
     # retruned data has a different format when querying for a single region.
 
 
@@ -73,7 +73,7 @@ end
 
 Returns a NamedTuple with two fields named `intensity` and `generation`.
 Both tables contain data spanning the period defined by the `start_date` and `end_date`.
-the `intensity` field contains a dataframe of the forecast data of the regional cabron
+the `intensity` field contains a dataframe of the forecast data of the regional carbon
 intensity, and the `generation` field contains a dataframe of the
 regional generation as a percent of the total generation.
 """

@@ -41,7 +41,7 @@ national_data = get_todays_forecast()
 regional_data = get_todays_forecast(regional = true)
 ```
 
-We can also use this package to visualise the current forecast and actual carbon intensity data over the next 48 hours. By default tha data across the whole of the UK is shown.
+We can also use this package to visualise the current forecast and actual carbon intensity data over the next 48 hours. By default national data is shown. 
 ```
 todays_plot()
 ```
