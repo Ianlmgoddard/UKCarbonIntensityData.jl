@@ -18,6 +18,7 @@ The Carbon intensity API lets us grab data at different spatial scales, either n
 using TimeZones
 using DataFrames
 using UKCarbonIntensityData
+using Plots
 
 start_date = ZonedDateTime(2022, 01, 01, tz"UTC")
 end_date = ZonedDateTime(2022, 02, 28, tz"UTC")
@@ -45,9 +46,12 @@ We can also use this package to visualise the current forecast and actual carbon
 todays_plot()
 ```
 
+![](docs/src/assets/national_daily_plot.png)
+
 To visualise the data for a specific region we can pass the `region` kwarg to the plot call.
 ```
 todays_plot(region = "South Scotland")
 ```
+![](docs/src/assets/regional_daily_plot.png)
 
 
