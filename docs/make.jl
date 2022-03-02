@@ -23,6 +23,6 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/Ianlmgoddard/UKCarbonIntensityData.jl",
-    #devbranch="main",
-    push_preview=true,
+    devbranch="main",
+    #push_preview=true,
 )

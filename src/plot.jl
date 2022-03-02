@@ -22,7 +22,7 @@ region, then plot data for this region only. Valid regions are contained in
     :xrotation --> 45
     :size --> (700, 500)
     :legend --> :topleft
-    :margin --> 10mm
+    :margin --> 12mm
 
     @series begin
         :label --> "Forecast"
