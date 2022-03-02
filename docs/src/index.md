@@ -32,8 +32,6 @@ regional_mix = regional_data.generation;
 display(first(regional_mix))
 ```
 
-
-
 ## Todays forecast
 We can also grab the forecast data for the next 48 hours, at both national or regional levels.
 ```@example Example 
