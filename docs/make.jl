@@ -22,6 +22,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/ianlmgoddard/UKCarbonIntensityData.jl",
+    repo="github.com/Ianlmgoddard/UKCarbonIntensityData.jl",
     devbranch="main",
 )
