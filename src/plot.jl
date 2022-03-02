@@ -22,7 +22,7 @@ region, then plot data for this region only. Valid regions are contained in
     :xrotation --> 45
     :size --> (600, 400)
     :legend --> :topleft
-    :margin --> 5mm
+    :margin --> 8mm
 
     @series begin
         :label --> "Forecast"
@@ -77,7 +77,7 @@ and `end_date`.
     :yguide --> "Carbon Intensity (gCO₂/kWh)"
     :title --> "UK Carbon Intensity"
     :size --> (600, 400)
-    :margin --> 5mm
+    :margin --> 8mm
 
     @series begin
         :seriestype --> :line
