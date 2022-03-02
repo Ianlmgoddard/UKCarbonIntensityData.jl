@@ -22,10 +22,10 @@ DataFramesMeta = "0.10"
 HTTP = "0.9"
 JSON = "0.21"
 Measures = "0.3"
+PlotUtils = "1"
 RecipesBase = "1"
 TimeZones = "1"
 julia = "1"
-
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
