@@ -1,7 +1,7 @@
 name: DeployDocs
 on:
   schedule:
-    - cron: '0 12 * * *'  # Daily at 12
+    - cron: '0 16 * * *'  # Daily at 12
 jobs:
   docs:
       name: Documentation
