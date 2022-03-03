@@ -20,9 +20,9 @@ region, then plot data for this region only. Valid regions are contained in
     :yguide --> "Carbon Intensity (gCO₂/kWh)"
     :title --> if isempty(region) "UK Carbon Intensity" else "$region Carbon Intensity" end
     :xrotation --> 45
-    :size --> (600, 600)
+    :size --> (700, 500)
     :legend --> :topleft
-    :margin --> 5mm
+    :margin --> 12mm
 
     @series begin
         :label --> "Forecast"
@@ -76,7 +76,8 @@ and `end_date`.
 
     :yguide --> "Carbon Intensity (gCO₂/kWh)"
     :title --> "UK Carbon Intensity"
-    :margin --> 5mm
+    :size --> (700, 500)
+    :margin --> 10mm
 
     @series begin
         :seriestype --> :line
