@@ -41,8 +41,8 @@ function get_todays_forecast(;regional::Bool=false, region::AbstractString="")
 
 
     if !isempty(region) && !in(region, keys(AVAILABLE_REGIONS))
-        error("$region not in available regions, choose one of
-        $(collect(keys(AVAILABLE_REGIONS)))")
+        throw(DomainError("`$region` not in available regions, choose one of
+        $(collect(keys(AVAILABLE_REGIONS)))"))
     end
 
     sd = Date(now())
