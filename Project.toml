@@ -1,7 +1,7 @@
 name = "UKCarbonIntensityData"
 uuid = "0e1b5cf3-e725-4f3c-b25f-c55f40573e77"
 authors = ["Ian Goddard"]
-version = "2.0.0"
+version = "2.0.1"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
