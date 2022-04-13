@@ -14,6 +14,7 @@ using TimeZones
 using Measures
 
 export get_regional_data, get_carbon_intensity, get_todays_forecast
+export get_generation_mix
 export todays_plot, carbon_intensity
 export AVAILABLE_REGIONS
 
