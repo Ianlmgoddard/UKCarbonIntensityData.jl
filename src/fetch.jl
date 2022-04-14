@@ -5,25 +5,19 @@ Returns a DataFrame of the nationwide forecast and actual carbon intensity betwe
 given `start_date` and `end_date`.
 """
 function get_carbon_intensity(start_date::ZonedDateTime, end_date::ZonedDateTime)
-    # get 10 days period as API only allows requests of less than 14 days
-    date_ranges = collect(Iterators.partition(start_date:Day(1):end_date, floor(Int, 10)))
-
-    parsed_dfs = map(date_ranges) do range
-        try
-            request = HTTP.request(
-                "GET",
-                "https://api.carbonintensity.org.uk/intensity/$(first(range))/$(last(range))"
-            )
-            data = JSON.parse(String(request.body))["data"]
-            parsed_data = _parse_data(data)
-            return _unpack_df(parsed_data, :intensity)
-        catch e
-            @warn("error $e for date range $range")
-        end
-    end
-
-    return reduce(vcat, parsed_dfs)
+    return _common_get_request(start_date, end_date, :intensity, "intensity")
 end
+
+"""
+    get_generation_mix(start_date::ZonedDateTime, end_date::ZonedDateTime)
+
+Returns a DataFrame of the national generation mix over period defined by the `start_date`
+and `end_date`.
+"""
+function get_generation_mix(start_date, end_date)
+    return _common_get_request(start_date, end_date, :generationmix, "generation")
+end
+
 """
     get_todays_forecast(;regional::Bool=false, region::AbstractString="")
 
@@ -106,6 +100,29 @@ function get_regional_data(start_date, end_date)
         intensity = reduce(vcat, intensity_dfs),
         generation = reduce(vcat, generation_dfs)
     )
+end
+
+
+"""
+function to fetch and process data return via the API in common format.
+"""
+function _common_get_request(start_date, end_date, unpack_column, url_branch)
+    date_ranges = collect(Iterators.partition(start_date:Day(1):end_date, floor(Int, 10)))
+    parsed_dfs = map(date_ranges) do range
+        try
+            request = HTTP.request(
+                "GET",
+                "https://api.carbonintensity.org.uk/$(url_branch)/$(first(range))/$(last(range))"
+            )
+            data = JSON.parse(String(request.body))["data"]
+            parsed_data = _parse_data(data)
+            return _unpack_df(parsed_data, unpack_column)
+        catch e
+            @warn("error $e for date range $range")
+        end
+    end
+
+    return reduce(vcat, parsed_dfs)
 end
 
 """
