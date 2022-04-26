@@ -16,8 +16,8 @@ using Plots
 using TimeZones
 using Dates
 
-start_date = now(localzone()) - Day(30)
-end_date = now(localzone())
+start_date = ZonedDateTime(2022, 01, 01, tz"UTC")
+end_date = ZonedDateTime(2022, 01, 10, tz"UTC")
 
 # get national level intensity data for the given period
 national_data = get_carbon_intensity(start_date, end_date)
