@@ -14,10 +14,9 @@ We can use this package to retrieve the recorded carbon intensity (measured in g
 using UKCarbonIntensityData
 using Plots
 using TimeZones
-using Dates
 
-start_date = now(localzone()) - Day(30)
-end_date = now(localzone())
+start_date = ZonedDateTime(2022, 01, 01, tz"UTC")
+end_date = ZonedDateTime(2022, 01, 10, tz"UTC")
 
 # get national level intensity data for the given period
 national_data = get_carbon_intensity(start_date, end_date)
@@ -27,7 +26,7 @@ first(national_data, 5)
 ### Regional data
 We can also retrieve the forecasted carbon intensity at the regional level
 ```@example Example
-regional_data = get_regional_data(end_date - Day(5), end_date)
+regional_data = get_regional_data(start_date, end_date)
 regional_intensity = regional_data.intensity;
 regional_mix = regional_data.generation;
 display(first(regional_mix))
